@@ -34,3 +34,28 @@ async def test_consumer(fake):
 
     await communicator.disconnect()
     await wrong_communicator.disconnect()
+
+
+@pytest.mark.asyncio
+async def test_consumers(fake):
+    room = fake.word()
+    message = fake.text()
+
+    consumer_one_com = WebsocketCommunicator(application, f"ws/chat/{room}/")
+    consumer_two_com = WebsocketCommunicator(application, f"ws/chat/{room}/")
+    consumer_three_com = WebsocketCommunicator(application, f"ws/chat/{room}/")
+    consumer_four_com = WebsocketCommunicator(application, f"ws/chat/{room}/")
+
+    consumers = [consumer_one_com, consumer_two_com, consumer_three_com, consumer_four_com]
+
+    for consumer in consumers:
+        await consumer.connect()
+
+    await consumer_one_com.send_json_to({"message": message})
+
+    for consumer in consumers:
+        response = await consumer.receive_json_from()
+
+        assert response == {'message': message}
+
+        await consumer.disconnect()

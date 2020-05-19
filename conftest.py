@@ -2,6 +2,8 @@ from faker import Faker
 import pytest
 from model_bakery import baker
 
+from login.models import Post
+
 
 @pytest.fixture(scope="session")
 def fake():
@@ -28,3 +30,11 @@ def user(user_data, django_user_model):
 def user_client(client, user_data):
     client.login(username=user_data["username"], password=user_data["password"])
     return client
+
+
+@pytest.fixture
+def create_post(user):
+    return baker.make(
+        Post,
+        user=user
+    )
