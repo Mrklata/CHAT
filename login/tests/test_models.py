@@ -1,15 +1,16 @@
 import pytest
+from django.urls import reverse
 
 from login.models import Post
 
 
 @pytest.mark.django_db
 def test_create_object(create_post):
-    create_post
+    post = create_post
 
-    post = Post.objects.all()
+    post_object = Post.objects.all()
 
-    assert post.count() == 1
+    assert post_object.count() == 1
 
 
 @pytest.mark.django_db

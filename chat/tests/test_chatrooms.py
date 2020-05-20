@@ -5,7 +5,7 @@ from channels_pro.routing import application
 
 
 @pytest.mark.asyncio
-async def test_consumer(fake):
+async def test_consumer_echo(fake):
     room = fake.word()
     wrong_room = fake.word()
 
@@ -37,7 +37,7 @@ async def test_consumer(fake):
 
 
 @pytest.mark.asyncio
-async def test_consumers(fake):
+async def test_many_consumers_recive_message_from_one(fake):
     room = fake.word()
     message = fake.text()
 
@@ -46,7 +46,12 @@ async def test_consumers(fake):
     consumer_three_com = WebsocketCommunicator(application, f"ws/chat/{room}/")
     consumer_four_com = WebsocketCommunicator(application, f"ws/chat/{room}/")
 
-    consumers = [consumer_one_com, consumer_two_com, consumer_three_com, consumer_four_com]
+    consumers = [
+        consumer_one_com,
+        consumer_two_com,
+        consumer_three_com,
+        consumer_four_com,
+    ]
 
     for consumer in consumers:
         await consumer.connect()
@@ -56,6 +61,33 @@ async def test_consumers(fake):
     for consumer in consumers:
         response = await consumer.receive_json_from()
 
-        assert response == {'message': message}
+        assert response == {"message": message}
 
         await consumer.disconnect()
+
+
+@pytest.mark.asyncio
+async def test_two_rooms_at_the_same_time(fake):
+    room_one = fake.word()
+    room_two = fake.word()
+
+    message_one = fake.text()
+    message_two = fake.text()
+
+    connection_one = WebsocketCommunicator(application, f"ws/chat/{room_one}/")
+    connection_two = WebsocketCommunicator(application, f"ws/chat/{room_two}/")
+
+    await connection_one.connect()
+    await connection_two.connect()
+
+    await connection_one.send_json_to({"message": message_one})
+    await connection_two.send_json_to({"message": message_two})
+
+    response_one = await connection_one.receive_json_from()
+    response_two = await connection_two.receive_json_from()
+
+    assert response_one == {"message": message_one}
+    assert response_two == {"message": message_two}
+
+    assert response_one != {"message": message_two}
+    assert response_two != {"message": message_one}

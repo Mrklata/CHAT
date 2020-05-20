@@ -34,7 +34,4 @@ def user_client(client, user_data):
 
 @pytest.fixture
 def create_post(user):
-    return baker.make(
-        Post,
-        user=user
-    )
+    return baker.make(Post, user=user)
