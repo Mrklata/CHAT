@@ -40,7 +40,7 @@ Url | View | Name
 <a name="chat"></a>
 ## 2. Chat
 
-Room name is a cutom url check chat/routing.py for details
+Room name is a cutom url check **chat/routing.py** for details
 
 Url | Info
 -- | --
