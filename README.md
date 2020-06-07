@@ -1,5 +1,5 @@
 # CHATAPP
-creating simple chat app with DRF
+creating simple chat app with DRF, with option to create posts for registered users
 ## Requirements
 App run on redis, I used docker before launch
 
