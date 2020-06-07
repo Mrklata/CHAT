@@ -8,8 +8,8 @@ App run on redis, I used docker before launch
 rest in **requirements.txt**
 
 **API ENDPOINTS:**
-1. [ Chat. ](#chat)
-2. [ Rest. ](#rest)
+1. [ Rest. ](#rest)
+2. [ Chat. ](#chat)
 
 <a name="rest"></a>
 ## 1. Rest
