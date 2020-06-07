@@ -1,7 +1,7 @@
 # CHAT
 creating simple chat app
 ## Requirements
-App run od redis, before launch
+App run on redis, I used docker before launch
 
 **`$ docker run -p 6379:6379 -d redis:5`**
 
