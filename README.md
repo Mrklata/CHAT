@@ -30,9 +30,9 @@ Url | View | Name
 /password_reset/ | django.contrib.auth.views.PasswordResetView | password_reset
 /password_reset/done/ | django.contrib.auth.views.PasswordResetDoneView | password_reset_done
 /posts/ | login.api.CreatePostsView | post-list
-/posts/<pk>/ | login.api.CreatePostsView | post-detail
+/posts/`<pk>`/ | login.api.CreatePostsView | post-detail
 /profile/ | login.api.CreateProfileView | profile-list
-/reset/<uidb64>/<token>/ | django.contrib.auth.views.PasswordResetConfirmView | password_reset_confirm
+/reset/`<uidb64>/<token>`/ | django.contrib.auth.views.PasswordResetConfirmView | password_reset_confirm
 /reset/done/ | django.contrib.auth.views.PasswordResetCompleteView | password_reset_complete
 /users/ | login.api.CreateUserView | user-list
 
@@ -44,4 +44,4 @@ Room name is a cutom url check **chat/routing.py** for details
 
 Url | Info
 -- | --
-ws/chat/<str:room_name> | custom room_name
+ws/chat/`<str:room_name>` | custom room_name
