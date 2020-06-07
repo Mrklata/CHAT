@@ -1,5 +1,5 @@
-# CHAT
-creating simple chat app
+# CHATAPP
+creating simple chat app with DRF
 ## Requirements
 App run on redis, I used docker before launch
 
@@ -8,8 +8,8 @@ App run on redis, I used docker before launch
 rest in **requirements.txt**
 
 **API ENDPOINTS:**
-1. [ Chat. ](#rest)
-2. [ Rest. ](#chat)
+1. [ Chat. ](#chat)
+2. [ Rest. ](#rest)
 
 <a name="rest"></a>
 ## 1. Rest
