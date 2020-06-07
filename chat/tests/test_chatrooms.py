@@ -4,40 +4,29 @@ from channels.testing import WebsocketCommunicator
 from channels_pro.routing import application
 
 
+@pytest.mark.django_db
 @pytest.mark.asyncio
-async def test_consumer_echo(fake):
+async def test_consumer_echo(fake, user):
     room = fake.word()
-    wrong_room = fake.word()
-
     message = fake.text()
 
     communicator = WebsocketCommunicator(application, f"ws/chat/{room}/")
-    wrong_communicator = WebsocketCommunicator(application, f"ws/chat/{wrong_room}/")
-
-    wrong_connected = await wrong_communicator.connect()
-    connected = await communicator.connect()
+    communicator.scope["user"] = user
+    connected, subprotocol = await communicator.connect()
 
     assert connected
-    assert wrong_connected
 
     await communicator.send_json_to({"message": message})
 
     response = await communicator.receive_json_from()
 
-    try:
-        wrong_response = await wrong_communicator.receive_json_from()
-    except:
-        wrong_response = None
-
-    assert response == {"message": message}
-    assert not wrong_response
+    assert response == {"message": message, "user": user.username}
 
     await communicator.disconnect()
-    await wrong_communicator.disconnect()
 
 
 @pytest.mark.asyncio
-async def test_many_consumers_recive_message_from_one(fake):
+async def test_many_consumers_receive_message_from_one(fake, user):
     room = fake.word()
     message = fake.text()
 
@@ -54,6 +43,8 @@ async def test_many_consumers_recive_message_from_one(fake):
     ]
 
     for consumer in consumers:
+        consumer.scope["user"] = user
+
         await consumer.connect()
 
     await consumer_one_com.send_json_to({"message": message})
@@ -61,13 +52,13 @@ async def test_many_consumers_recive_message_from_one(fake):
     for consumer in consumers:
         response = await consumer.receive_json_from()
 
-        assert response == {"message": message}
+        assert response == {"message": message, "user": user.username}
 
         await consumer.disconnect()
 
 
 @pytest.mark.asyncio
-async def test_two_rooms_at_the_same_time(fake):
+async def test_two_rooms_at_the_same_time(fake, user):
     room_one = fake.word()
     room_two = fake.word()
 
@@ -76,6 +67,9 @@ async def test_two_rooms_at_the_same_time(fake):
 
     connection_one = WebsocketCommunicator(application, f"ws/chat/{room_one}/")
     connection_two = WebsocketCommunicator(application, f"ws/chat/{room_two}/")
+
+    connection_one.scope["user"] = user
+    connection_two.scope["user"] = user
 
     await connection_one.connect()
     await connection_two.connect()
@@ -86,8 +80,30 @@ async def test_two_rooms_at_the_same_time(fake):
     response_one = await connection_one.receive_json_from()
     response_two = await connection_two.receive_json_from()
 
-    assert response_one == {"message": message_one}
-    assert response_two == {"message": message_two}
+    assert response_one == {"message": message_one, "user": user.username}
+    assert response_two == {"message": message_two, "user": user.username}
 
-    assert response_one != {"message": message_two}
-    assert response_two != {"message": message_one}
+    assert response_one != {"message": message_two, "user": user.username}
+    assert response_two != {"message": message_one, "user": user.username}
+
+
+@pytest.mark.asyncio
+async def test_typo_in_json_message(fake, user):
+    room = fake.word()
+    message = fake.sentence()
+
+    communicator = WebsocketCommunicator(application, f"ws/chat/{room}/")
+
+    communicator.scope["user"] = user
+
+    connection = await communicator.connect()
+
+    assert connection
+
+    # Creating typo
+    await communicator.send_json_to({'mesage': message})
+
+    response = await communicator.receive_json_from()
+
+    assert response != {'message': message, "user": user.username}
+    assert response == {'message': 'Typo in message !!!', "user": user.username}
