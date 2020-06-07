@@ -44,4 +44,4 @@ Room name is a cutom url check **chat/routing.py** for details
 
 Url | Info
 -- | --
-`ws/chat/<str:room_name>` | custom room_name
+`ws/chat/<room_name>` | custom room_name
