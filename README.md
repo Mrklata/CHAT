@@ -5,7 +5,7 @@ App run on redis, I used docker before launch
 
 **`$ docker run -p 6379:6379 -d redis:5`**
 
-rest in requirements.txt
+rest in **requirements.txt**
 
 **API ENDPOINTS:**
 1. [ Chat. ](#rest)
