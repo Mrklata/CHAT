@@ -21,20 +21,20 @@ In your case you need to make second line like in example below:
 
 Url | View | Name 
 --- | --- | --- 
-/api-auth/login/ | django.contrib.auth.views.LoginView | rest_framework:login 
+/api-auth/login/ | django.contrib.auth.views.LoginView | rest_framework:login
 /api-auth/logout/ | django.contrib.auth.views.LogoutView |rest_framework:logout
- /login/ | django.contrib.auth.views.LoginView | login
- /logout/ | django.contrib.auth.views.LogoutView | logout
- /password_change/ | django.contrib.auth.views.PasswordChangeView | password_change 
- /password_change/done/ | django.contrib.auth.views.PasswordChangeDoneView | password_change_done 
- /password_reset/ | django.contrib.auth.views.PasswordResetView | password_reset 
- /password_reset/done/ | django.contrib.auth.views.PasswordResetDoneView | password_reset_done 
- /posts/ | login.api.CreatePostsView | post-list  
- /posts/<pk>/ | login.api.CreatePostsView | post-detail 
- /profile/ | login.api.CreateProfileView | profile-list 
- /reset/<uidb64>/<token>/ | django.contrib.auth.views.PasswordResetConfirmView | password_reset_confirm 
- /reset/done/ | django.contrib.auth.views.PasswordResetCompleteView | password_reset_complete 
- /users/ | login.api.CreateUserView | user-list 
+/login/ | django.contrib.auth.views.LoginView | login
+/logout/ | django.contrib.auth.views.LogoutView | logout
+/password_change/ | django.contrib.auth.views.PasswordChangeView | password_change
+/password_change/done/ | django.contrib.auth.views.PasswordChangeDoneView | password_change_done
+/password_reset/ | django.contrib.auth.views.PasswordResetView | password_reset
+/password_reset/done/ | django.contrib.auth.views.PasswordResetDoneView | password_reset_done
+/posts/ | login.api.CreatePostsView | post-list
+/posts/<pk>/ | login.api.CreatePostsView | post-detail
+/profile/ | login.api.CreateProfileView | profile-list
+/reset/<uidb64>/<token>/ | django.contrib.auth.views.PasswordResetConfirmView | password_reset_confirm
+/reset/done/ | django.contrib.auth.views.PasswordResetCompleteView | password_reset_complete
+/users/ | login.api.CreateUserView | user-list
 
 
 <a name="chat"></a>
