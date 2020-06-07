@@ -29,7 +29,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         try:
             user = self.user.username
         except:
-            # Error to handle
+            # Error to handle anonymous user
             user = x
 
         try:
