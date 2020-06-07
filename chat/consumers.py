@@ -26,10 +26,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
         status = 'OK'
-        try:
+
+        if self.user != AnonymousUser():
             user = self.user.username
-        except:
-            # Error to handle anonymous user
+        else:
             user = x
 
         try:

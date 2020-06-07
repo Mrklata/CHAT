@@ -25,6 +25,29 @@ async def test_consumer_echo(fake, user):
     await communicator.disconnect()
 
 
+@pytest.mark.django_db
+@pytest.mark.asyncio
+async def test_consumer_anonymous(fake, user):
+    room = fake.word()
+    message = fake.text()
+
+    communicator = WebsocketCommunicator(application, f"ws/chat/{room}/")
+    connected, subprotocol = await communicator.connect()
+
+    assert connected
+
+    await communicator.send_json_to({"message": message})
+
+    response = await communicator.receive_json_from()
+
+    assert len(response) == 2
+    assert response['message'] == message
+    assert len(response['user']) == 5
+    assert type(response['user']) == str
+    assert response != {"message": message, "user": user.username}
+    await communicator.disconnect()
+
+
 @pytest.mark.asyncio
 async def test_many_consumers_receive_message_from_one(fake, user):
     room = fake.word()
