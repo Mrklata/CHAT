@@ -40,4 +40,8 @@ Url | View | Name
 <a name="chat"></a>
 ## 2. Chat
 
-ws/chat/<str:room_name>  custom room_name
+Room name is a cutom url check chat/routing.py for details
+
+Url | Info
+-- | --
+ws/chat/<str:room_name> | custom room_name
