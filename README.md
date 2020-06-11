@@ -1,9 +1,7 @@
 # CHATAPP
 creating simple chat app with DRF, with option to create posts for registered users
 ## Requirements
-App run on redis, I used docker before launch
-
-**`$ docker run -p 6379:6379 -d redis:5`**
+App run on redis port 6379:6379
 
 rest in **requirements.txt**
 
